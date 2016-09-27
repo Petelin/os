@@ -3,7 +3,8 @@
 
 int bootmain(){
     clean_concole();
-    zprint("ccdcc",0,0);
-    zprint("aaakjk 可是aaa",1,0);
+    _putline("hello kernel.",0,0);
+    _putline("it is difficult for me,but i like it.",2,0);
+    _putline("i get time, it is a life thing !",4,0);
     return 0;
 }
