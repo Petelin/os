@@ -5,38 +5,47 @@ CC = i386-elf-gcc
 LD = i386-elf-ld
 OBCP = i386-elf-objcopy
 
-C_FLAGS = -fno-builtin -Wall -ggdb -m32 -gstabs  -nostdinc  -fno-stack-protector  -Os -nostdinc -c
-BOOT_LD_FLAGS = -nostdlib -N -e start -Ttext 0x7C00
+C_FLAGS = -fno-builtin -Wall -ggdb -m32 -gstabs -fno-stack-protector  -Os -nostdinc -Iboot -Ilibs -c  -gstabs+
+BOOT_LD_FLAGS = -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00
 LD_FLAGS = -T scripts/kernel.ld -m elf_i386 -nostdlib
 
-all: bin/floppy.img
+OBJECTS = io.o
+
+all: $(OBJECTS) bin/floppy.img
 
 bin/floppy.img: bin/bootloader
-	dd bs=512 count=1000 if=bin/bootloader of=bin/floppy.img conv=notrunc
+	dd bs=512 count=1000 if=/dev/zero of=bin/floppy.img
+	dd bs=512 if=bin/bootloader of=bin/floppy.img conv=notrunc
 
-bin/bootloader: temp/boot temp/bootasm bin/sign
-	$(LD) $(BOOT_LD_FLAGS) temp/bootasm temp/boot -o temp/bootloader.out
+bin/bootloader: bin/sign
+	$(LD) $(BOOT_LD_FLAGS) ./temp/bootasm $(shell find . -name "*.o") -o ./temp/bootloader.out
 	$(OBCP) -S -O binary temp/bootloader.out temp/bootloader
 	bin/sign temp/bootloader bin/bootloader
 
-bin/sign:
+bin/sign: scripts/sign.c
 	gcc scripts/sign.c -o bin/sign
 
-temp/bootasm: boot/bootasm.s
-	$(CC) $(C_FLAGS) boot/bootasm.s -o temp/bootasm
-
-temp/boot: boot/boot.c
-	$(CC) $(C_FLAGS) boot/boot.c -o temp/boot
-
-
+$(OBJECTS): %.o : libs/%.c
+	@echo 编译libs c...
+	$(CC) $(C_FLAGS) $< -o temp/$(OBJECTS)
+	$(CC) $(C_FLAGS) boot/bootasm.S -o temp/bootasm
+	$(CC) $(C_FLAGS) boot/boot.c -o temp/boot.o
 
 .PHONY:qemu
 qemu:
-	qemu -fda bin/floppy.img -boot a
+	qemu-system-i386 -fda bin/floppy.img -boot a
 
 .PHONY:debug
 debug:
-	qemu -S -s -fda floppy.img -boot a &
-	sleep 1
-	cgdb -x scripts/gdbinit
+	qemu -hda bin/floppy.img -S -s &
+	gdb -ex 'target remote localhost:1234' \
+	    -ex 'set disassembly-flavor intel' \
+		-ex 'set architecture i386' \
+	    -ex 'break *0x7c00' \
+		-ex 'continue'
 
+
+.PHONY:clean
+clean:
+	$(shell rm -rf bin/*)
+	$(shell rm -rf temp/*)
