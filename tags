@@ -1,0 +1,30 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BOOT_LD_FLAGS	Makefile	/^BOOT_LD_FLAGS = -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00$/;"	m
+CC	Makefile	/^CC = i386-elf-gcc$/;"	m
+C_FLAGS	Makefile	/^C_FLAGS = -fno-builtin -Wall -ggdb -m16 -gstabs -fno-stack-protector  -Os -nostdinc -I . -c  -gstabs+ $/;"	m
+FALSE	libs/types.h	/^	#define FALSE /;"	d
+INCLUDE_TYPES_H_	libs/types.h	/^#define INCLUDE_TYPES_H_$/;"	d
+LD	Makefile	/^LD = i386-elf-ld$/;"	m
+LD_FLAGS	Makefile	/^LD_FLAGS = -T scripts\/kernel.ld -m elf_i386 -nostdlib$/;"	m
+NULL	libs/types.h	/^	#define NULL /;"	d
+OBCP	Makefile	/^OBCP = i386-elf-objcopy$/;"	m
+TRUE	libs/types.h	/^	#define TRUE /;"	d
+int16_t	libs/types.h	/^typedef          short int16_t;$/;"	t
+int32_t	libs/types.h	/^typedef          int   int32_t;$/;"	t
+int8_t	libs/types.h	/^typedef          char  int8_t;$/;"	t
+kern_enter	boot/boot.c	/^int kern_enter(){$/;"	f
+kern_entry	init/entry.c	/^int kern_entry()$/;"	f
+len	boot/bootasm.s	/^    len = . - message - 1$/;"	d
+main	scripts/sign.c	/^main(int argc, char *argv[]) {$/;"	f
+p	boot/bootasm.s	/^    p:$/;"	l
+s	Makefile	/^	dd bs=512 count=1000 if=\/dev\/zero of=bin\/floppy.img$/;"	m
+s	Makefile	/^	dd bs=512 if=bin\/bootloader of=bin\/floppy.img conv=notrunc$/;"	m
+start	boot/bootasm.s	/^    start:$/;"	l
+uint16_t	libs/types.h	/^typedef unsigned short uint16_t;$/;"	t
+uint32_t	libs/types.h	/^typedef unsigned int   uint32_t;$/;"	t
+uint8_t	libs/types.h	/^typedef unsigned char  uint8_t;$/;"	t

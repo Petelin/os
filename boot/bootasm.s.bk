@@ -1,0 +1,26 @@
+.data
+    message : .string "hello, world!" 
+    len = . - message - 1
+    
+.code16
+.text
+    .global start
+
+    start:
+        cli
+        movw %cs, %ax
+        movw %ax, %ds
+        movw %ax, %es
+        movl $0, %ebp
+        call kern_enter
+        jmp .
+    p:
+        movw $message, %ax
+        movw %ax, %bp
+        movw $len, %cx
+        movw $0x1301, %ax
+        movw $0x0002, %bx
+        movb $0x00, %dl
+        int $0x10
+        ret
+
