@@ -5,39 +5,51 @@ CC = i386-elf-gcc
 LD = i386-elf-ld
 OBCP = i386-elf-objcopy
 
-C_FLAGS = -fno-builtin -Wall -ggdb -m32 -gstabs -fno-stack-protector  -Os -nostdinc -Iboot -Ilibs -c  -gstabs+
-BOOT_LD_FLAGS = -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00
+C_FLAGS = -fno-builtin -Wall -ggdb -m32 -gstabs -fno-stack-protector  -Os -nostdinc -Ilibs -Ikernel -c
 LD_FLAGS = -T scripts/kernel.ld -m elf_i386 -nostdlib
 
-OBJECTS = io.o
+C_LIB_SOURCES = $(shell find libs -name "*.c")
+C_LIB_OBJECTS = $(patsubst libs/%.c, temp/%.o, $(C_LIB_SOURCES))
 
-all: $(OBJECTS) bin/floppy.img
+C_KERNEL_SOURCES = $(shell find kernel -name "*.c")
+C_KERNEL_OBJECTS = $(patsubst kernel/%.c, temp/%.o, $(C_KERNEL_SOURCES))
 
-bin/floppy.img: bin/bootloader
+all: $(C_LIB_OBJECTS) bin/floppy.img
+
+bin/floppy.img: bin/bootloader bin/kernel
 	dd bs=512 count=1000 if=/dev/zero of=bin/floppy.img
 	dd bs=512 if=bin/bootloader of=bin/floppy.img conv=notrunc
+	dd bs=512 if=bin/kernel of=bin/floppy.img seek=1 conv=notrunc
 
-bin/bootloader: bin/sign
-	$(LD) $(BOOT_LD_FLAGS) ./temp/bootasm $(shell find . -name "*.o") -o ./temp/bootloader.out
+
+bin/bootloader: bin/sign boot/bootasm.s boot/bootmain.c
+	$(CC) $(C_FLAGS) -Iboot boot/bootasm.S -o temp/bootasm.o
+	$(CC) $(C_FLAGS) -I. boot/bootmain.c -o temp/bootmain.o
+	$(LD) -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00 temp/bootasm.o temp/bootmain.o -o temp/bootloader.out
 	$(OBCP) -S -O binary temp/bootloader.out temp/bootloader
 	bin/sign temp/bootloader bin/bootloader
 
 bin/sign: scripts/sign.c
 	gcc scripts/sign.c -o bin/sign
 
-$(OBJECTS): %.o : libs/%.c
-	@echo 编译libs c...
-	$(CC) $(C_FLAGS) $< -o temp/$(OBJECTS)
-	$(CC) $(C_FLAGS) boot/bootasm.S -o temp/bootasm
-	$(CC) $(C_FLAGS) boot/boot.c -o temp/boot.o
+bin/kernel: $(C_LIB_OBJECTS) $(C_KERNEL_OBJECTS) 
+	$(LD) $(LD_FLAGS) $(C_LIB_OBJECTS) $(C_KERNEL_OBJECTS) -o bin/kernel
+
+$(C_LIB_OBJECTS): $(C_LIB_SOURCES)
+	@echo 编译libs...
+	$(CC) $(C_FLAGS) $< -o $@
+
+$(C_KERNEL_OBJECTS): $(C_KERNEL_SOURCES)
+	@echo 编译kernel...
+	$(CC) $(C_FLAGS) $< -o $@
 
 .PHONY:qemu
 qemu:
-	qemu-system-i386 -fda bin/floppy.img -boot a
+	qemu-system-i386 -parallel stdio -hda bin/floppy.img -serial null
 
 .PHONY:debug
 debug:
-	qemu -hda bin/floppy.img -S -s &
+	qemu -parallel stdio -hda bin/floppy.img -serial null -S -s &
 	gdb -ex 'target remote localhost:1234' \
 	    -ex 'set disassembly-flavor intel' \
 		-ex 'set architecture i386' \
@@ -47,5 +59,5 @@ debug:
 
 .PHONY:clean
 clean:
-	$(shell rm -rf bin/*)
-	$(shell rm -rf temp/*)
+	@rm -rf bin/*
+	@rm -rf temp/*
