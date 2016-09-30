@@ -5,7 +5,7 @@ CC = i386-elf-gcc
 LD = i386-elf-ld
 OBCP = i386-elf-objcopy
 
-C_FLAGS = -fno-builtin -Wall -ggdb -m32 -gstabs -fno-stack-protector  -Os -nostdinc -Ilibs -Ikernel -c
+C_FLAGS = -fno-builtin -Wall -ggdb  -gstabs -fno-stack-protector -nostdinc -Os -Ilibs -Ikernel -g -m32 -c
 LD_FLAGS = -T scripts/kernel.ld -m elf_i386 -nostdlib
 
 C_LIB_SOURCES = $(shell find libs -name "*.c")
@@ -21,7 +21,6 @@ bin/floppy.img: bin/bootloader bin/kernel
 	dd bs=512 if=bin/bootloader of=bin/floppy.img conv=notrunc
 	dd bs=512 if=bin/kernel of=bin/floppy.img seek=1 conv=notrunc
 
-
 bin/bootloader: bin/sign boot/bootasm.s boot/bootmain.c
 	$(CC) $(C_FLAGS) -Iboot boot/bootasm.S -o temp/bootasm.o
 	$(CC) $(C_FLAGS) -I. boot/bootmain.c -o temp/bootmain.o
@@ -35,11 +34,11 @@ bin/sign: scripts/sign.c
 bin/kernel: $(C_LIB_OBJECTS) $(C_KERNEL_OBJECTS) 
 	$(LD) $(LD_FLAGS) $(C_LIB_OBJECTS) $(C_KERNEL_OBJECTS) -o bin/kernel
 
-$(C_LIB_OBJECTS): $(C_LIB_SOURCES)
+$(C_LIB_OBJECTS): temp/%.o : libs/%.c
 	@echo 编译libs...
 	$(CC) $(C_FLAGS) $< -o $@
 
-$(C_KERNEL_OBJECTS): $(C_KERNEL_SOURCES)
+$(C_KERNEL_OBJECTS): temp/%.o : kernel/%.c
 	@echo 编译kernel...
 	$(CC) $(C_FLAGS) $< -o $@
 

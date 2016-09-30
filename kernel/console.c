@@ -1,6 +1,9 @@
 #include "console.h"
+#include "string.h"
 #include "types.h"
 #include "i386.h"
+
+static void scroll();
 
 // VGA 的显示缓冲的起点是 0xB8000
 static uint16_t *video_memory = (uint16_t *)0xB8000;
@@ -10,6 +13,13 @@ static int8_t cs_y = 0;
 
 void console_init(){
     console_clear();
+    char s[100] = "dsaer123";
+    char * p = "...dsaer123";
+    printf("%d, len: %s::\n",strlen(s) ,strcat(s,p));
+    printf(s);
+
+    printf("\n%s\n", "hello kernel!");
+    cprintf("%s\n", rc_black, rc_light_green, "*. printf(char * format, ...)");
 }
 
 void get_cursor(){
@@ -43,6 +53,23 @@ void console_clear(){
     cs_x =0;cs_y=0;move_cs();
 }
 
+// 向上滚动一行
+static void scroll(){
+    size_t i,j;
+    for (i = 0; i < 24; i++) {
+        for (j = 0; j < 80; j++) {
+            *(video_memory + i*80 + j) = *(video_memory + (i+1)*80 +j);
+        }
+    }
+    uint8_t attribute_byte = (0 << 4) | (15 & 0x0F);
+    uint16_t blank = 0x20 | (attribute_byte << 8);
+    for (i = 0; i < 80; i++) {
+        *(video_memory + 24*80 + i) = blank;
+    }
+    cs_y--;
+    move_cs();
+}
+
 
 void console_putc_color(char c, real_color_t back, real_color_t fore){
     back = (uint8_t)back;
@@ -71,39 +98,33 @@ void console_putc_color(char c, real_color_t back, real_color_t fore){
         cs_x = 0;
         cs_y++;
     }
+    if (cs_y >= 25){
+        cs_y = 25;
+        scroll();
+    }
     move_cs();
 }
 
-
 // 屏幕打印一个以 \0 结尾的字符串默认黑底白字
 void console_write(char *cstr){
-    console_write_color(*cstr,rc_black,rc_white);
+    console_write_color(cstr,rc_black,rc_white);
 }
 
 // 屏幕打印一个以 \0 结尾的字符串带颜色
 void console_write_color(char *cstr, real_color_t back, real_color_t fore){
     while (*cstr != '\0') {
-        console_putc_color(*cstr,back,fore);
+        console_putc_color(*cstr++,back,fore);
     }
 }
 
 // 屏幕输出一个十六进制的整型数
 void console_write_hex(uint32_t n, real_color_t back, real_color_t fore){
+    char * tmp = int2str(n, 16);
+    console_write_color(tmp,back,fore);
 }
-
 
 // 屏幕输出一个十进制的整型数
 void console_write_dec(uint32_t n, real_color_t back, real_color_t fore){
-    char tmp[11];
-    int32_t i = 0;
-    if (n == 0) {
-        console_putc_color('0',back,fore);
-    }
-    while(n > 0){
-        tmp[i++] = n % 10 + 48;
-        n /= 10;
-    }
-    for (;i>0;i--) {
-        console_putc_color(tmp[i-1],back,fore);
-    }
+    char * tmp= int2str(n, 10);
+    console_write_color(tmp,back,fore);
 }

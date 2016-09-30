@@ -4,27 +4,127 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-BOOT_LD_FLAGS	Makefile	/^BOOT_LD_FLAGS = -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00$/;"	m
 CC	Makefile	/^CC = i386-elf-gcc$/;"	m
-C_FLAGS	Makefile	/^C_FLAGS = -fno-builtin -Wall -ggdb -m16 -gstabs -fno-stack-protector  -Os -nostdinc -I . -c  -gstabs+ $/;"	m
+C_FLAGS	Makefile	/^C_FLAGS = -fno-builtin -Wall -ggdb  -gstabs -fno-stack-protector -nostdinc -Os -Ilibs -Ikernel -g -m32 -c$/;"	m
+C_KERNEL_OBJECTS	Makefile	/^C_KERNEL_OBJECTS = $(patsubst kernel\/%.c, temp\/%.o, $(C_KERNEL_SOURCES))$/;"	m
+C_KERNEL_SOURCES	Makefile	/^C_KERNEL_SOURCES = $(shell find kernel -name "*.c")$/;"	m
+C_LIB_OBJECTS	Makefile	/^C_LIB_OBJECTS = $(patsubst libs\/%.c, temp\/%.o, $(C_LIB_SOURCES))$/;"	m
+C_LIB_SOURCES	Makefile	/^C_LIB_SOURCES = $(shell find libs -name "*.c")$/;"	m
+ELFHDR	boot/bootmain.c	/^struct elfhdr * ELFHDR    =      ((struct elfhdr *)0x10000) ;     \/\/ scratch space$/;"	v	typeref:struct:elfhdr
+ELF_MAGIC	libs/elf.h	/^#define ELF_MAGIC /;"	d
 FALSE	libs/types.h	/^	#define FALSE /;"	d
+INCLUDE_ASM_H_	libs/i386.h	/^#define INCLUDE_ASM_H_$/;"	d
+INCLUDE_CONSOLE_H_	libs/console.h	/^#define INCLUDE_CONSOLE_H_$/;"	d
+INCLUDE_STRING_H_	libs/string.h	/^#define INCLUDE_STRING_H_$/;"	d
 INCLUDE_TYPES_H_	libs/types.h	/^#define INCLUDE_TYPES_H_$/;"	d
 LD	Makefile	/^LD = i386-elf-ld$/;"	m
 LD_FLAGS	Makefile	/^LD_FLAGS = -T scripts\/kernel.ld -m elf_i386 -nostdlib$/;"	m
 NULL	libs/types.h	/^	#define NULL /;"	d
 OBCP	Makefile	/^OBCP = i386-elf-objcopy$/;"	m
+SECTSIZE	boot/bootmain.c	/^unsigned int    SECTSIZE  =      512 ;$/;"	v
+SEG_ASM	boot/asm.h	/^#define SEG_ASM(/;"	d
+SEG_NULLASM	boot/asm.h	/^#define SEG_NULLASM /;"	d
+STA_A	boot/asm.h	/^#define STA_A /;"	d
+STA_C	boot/asm.h	/^#define STA_C /;"	d
+STA_E	boot/asm.h	/^#define STA_E /;"	d
+STA_R	boot/asm.h	/^#define STA_R /;"	d
+STA_W	boot/asm.h	/^#define STA_W /;"	d
+STA_X	boot/asm.h	/^#define STA_X /;"	d
 TRUE	libs/types.h	/^	#define TRUE /;"	d
+_INCLUDE_STDIO_H_	libs/stdio.h	/^#define _INCLUDE_STDIO_H_$/;"	d
+__BOOT_ASM_H__	boot/asm.h	/^#define __BOOT_ASM_H__$/;"	d
+__LIBS_ELF_H__	libs/elf.h	/^#define __LIBS_ELF_H__$/;"	d
+bootmain	boot/bootmain.c	/^bootmain(void) {$/;"	f
+console_clear	kernel/console.c	/^void console_clear(){$/;"	f
+console_init	kernel/console.c	/^void console_init(){$/;"	f
+console_putc_color	kernel/console.c	/^void console_putc_color(char c, real_color_t back, real_color_t fore){$/;"	f
+console_write	kernel/console.c	/^void console_write(char *cstr){$/;"	f
+console_write_color	kernel/console.c	/^void console_write_color(char *cstr, real_color_t back, real_color_t fore){$/;"	f
+console_write_dec	kernel/console.c	/^void console_write_dec(uint32_t n, real_color_t back, real_color_t fore){$/;"	f
+console_write_hex	kernel/console.c	/^void console_write_hex(uint32_t n, real_color_t back, real_color_t fore){$/;"	f
+cprintf	kernel/stdio.c	/^void cprintf(const char *format, real_color_t back, real_color_t fore, ...){$/;"	f
+cs_x	kernel/console.c	/^static int8_t cs_x = 0;$/;"	v	file:
+cs_y	kernel/console.c	/^static int8_t cs_y = 0;$/;"	v	file:
+e_ehsize	libs/elf.h	/^    uint16_t e_ehsize;    \/\/ size of this elf header$/;"	m	struct:elfhdr
+e_elf	libs/elf.h	/^    uint8_t e_elf[12];$/;"	m	struct:elfhdr
+e_entry	libs/elf.h	/^    uint32_t e_entry;     \/\/ entry point if executable$/;"	m	struct:elfhdr
+e_flags	libs/elf.h	/^    uint32_t e_flags;     \/\/ architecture-specific flags, usually 0$/;"	m	struct:elfhdr
+e_machine	libs/elf.h	/^    uint16_t e_machine;   \/\/ 3=x86, 4=68K, etc.$/;"	m	struct:elfhdr
+e_magic	libs/elf.h	/^    uint32_t e_magic;     \/\/ must equal ELF_MAGIC$/;"	m	struct:elfhdr
+e_phentsize	libs/elf.h	/^    uint16_t e_phentsize; \/\/ size of an entry in program header$/;"	m	struct:elfhdr
+e_phnum	libs/elf.h	/^    uint16_t e_phnum;     \/\/ number of entries in program header or 0$/;"	m	struct:elfhdr
+e_phoff	libs/elf.h	/^    uint32_t e_phoff;     \/\/ file position of program header or 0$/;"	m	struct:elfhdr
+e_shentsize	libs/elf.h	/^    uint16_t e_shentsize; \/\/ size of an entry in section header$/;"	m	struct:elfhdr
+e_shnum	libs/elf.h	/^    uint16_t e_shnum;     \/\/ number of entries in section header or 0$/;"	m	struct:elfhdr
+e_shoff	libs/elf.h	/^    uint32_t e_shoff;     \/\/ file position of section header or 0$/;"	m	struct:elfhdr
+e_shstrndx	libs/elf.h	/^    uint16_t e_shstrndx;  \/\/ section number that contains section name strings$/;"	m	struct:elfhdr
+e_type	libs/elf.h	/^    uint16_t e_type;      \/\/ 1=relocatable, 2=executable, 3=shared object, 4=core image$/;"	m	struct:elfhdr
+e_version	libs/elf.h	/^    uint32_t e_version;   \/\/ file version, always 1$/;"	m	struct:elfhdr
+elfhdr	libs/elf.h	/^struct elfhdr {$/;"	s
+format_to_str	kernel/stdio.c	/^static format_to_str(const char *format, va_list args){$/;"	f	file:
+gdt	boot/bootasm.S	/^gdt:$/;"	l
+gdtdesc	boot/bootasm.S	/^gdtdesc:$/;"	l
+get_cursor	kernel/console.c	/^void get_cursor(){$/;"	f
+inb	boot/bootmain.c	/^inb(uint16_t port) {$/;"	f	file:
+inb	libs/i386.h	/^inline uint8_t inb(uint16_t port){$/;"	f
+insl	boot/bootmain.c	/^insl(uint32_t port, void *addr, int cnt) {$/;"	f	file:
 int16_t	libs/types.h	/^typedef          short int16_t;$/;"	t
+int2str	kernel/string.c	/^char * int2str(uint32_t n, char type){$/;"	f
 int32_t	libs/types.h	/^typedef          int   int32_t;$/;"	t
-int8_t	libs/types.h	/^typedef          char  int8_t;$/;"	t
-kern_enter	boot/boot.c	/^int kern_enter(){$/;"	f
-kern_entry	init/entry.c	/^int kern_entry()$/;"	f
-len	boot/bootasm.s	/^    len = . - message - 1$/;"	d
+int8_t	libs/types.h	/^typedef signed 	 char  int8_t;$/;"	t
+inw	libs/i386.h	/^inline uint16_t inw(uint16_t port){$/;"	f
+kern_init	kernel/kernel_init.c	/^int kern_init(){$/;"	f
 main	scripts/sign.c	/^main(int argc, char *argv[]) {$/;"	f
-p	boot/bootasm.s	/^    p:$/;"	l
+move_cs	kernel/console.c	/^static void move_cs(){$/;"	f	file:
+outb	boot/bootmain.c	/^outb(uint16_t port, uint8_t data) {$/;"	f	file:
+outb	libs/i386.h	/^inline void outb(uint16_t port, uint8_t value){$/;"	f
+outw	boot/bootmain.c	/^outw(uint16_t port, uint16_t data) {$/;"	f	file:
+p_align	libs/elf.h	/^    uint32_t p_align;  \/\/ required alignment, invariably hardware page size$/;"	m	struct:proghdr
+p_filesz	libs/elf.h	/^    uint32_t p_filesz; \/\/ size of segment in file$/;"	m	struct:proghdr
+p_flags	libs/elf.h	/^    uint32_t p_flags;  \/\/ read\/write\/execute bits$/;"	m	struct:proghdr
+p_memsz	libs/elf.h	/^    uint32_t p_memsz;  \/\/ size of segment in memory (bigger if contains bss）$/;"	m	struct:proghdr
+p_offset	libs/elf.h	/^    uint32_t p_offset; \/\/ file offset of segment$/;"	m	struct:proghdr
+p_pa	libs/elf.h	/^    uint32_t p_pa;     \/\/ physical address, not used$/;"	m	struct:proghdr
+p_type	libs/elf.h	/^    uint32_t p_type;   \/\/ loadable code or data, dynamic linking info,etc.$/;"	m	struct:proghdr
+p_va	libs/elf.h	/^    uint32_t p_va;     \/\/ virtual address to map segment$/;"	m	struct:proghdr
+printf	kernel/stdio.c	/^void printf(const char *format, ...){$/;"	f
+proghdr	libs/elf.h	/^struct proghdr {$/;"	s
+protcseg	boot/bootasm.S	/^protcseg:$/;"	l
+rc_black	libs/console.h	/^    rc_black = 0,$/;"	e	enum:real_color
+rc_blue	libs/console.h	/^    rc_blue = 1,$/;"	e	enum:real_color
+rc_brown	libs/console.h	/^    rc_brown = 6,$/;"	e	enum:real_color
+rc_cyan	libs/console.h	/^    rc_cyan = 3,$/;"	e	enum:real_color
+rc_dark_grey	libs/console.h	/^    rc_dark_grey = 8,$/;"	e	enum:real_color
+rc_green	libs/console.h	/^    rc_green = 2,$/;"	e	enum:real_color
+rc_light_blue	libs/console.h	/^    rc_light_blue = 9,$/;"	e	enum:real_color
+rc_light_brown	libs/console.h	/^    rc_light_brown = 14, \/\/ yellow$/;"	e	enum:real_color
+rc_light_cyan	libs/console.h	/^    rc_light_cyan = 11,$/;"	e	enum:real_color
+rc_light_green	libs/console.h	/^    rc_light_green = 10,$/;"	e	enum:real_color
+rc_light_grey	libs/console.h	/^    rc_light_grey = 7,$/;"	e	enum:real_color
+rc_light_magenta	libs/console.h	/^    rc_light_magenta = 13,$/;"	e	enum:real_color
+rc_light_red	libs/console.h	/^    rc_light_red = 12,$/;"	e	enum:real_color
+rc_magenta	libs/console.h	/^    rc_magenta = 5,$/;"	e	enum:real_color
+rc_red	libs/console.h	/^    rc_red = 4,$/;"	e	enum:real_color
+rc_white	libs/console.h	/^    rc_white = 15$/;"	e	enum:real_color
+readsect	boot/bootmain.c	/^readsect(void *dst, uint32_t secno) {$/;"	f	file:
+readseg	boot/bootmain.c	/^readseg(uintptr_t va, uint32_t count, uint32_t offset) {$/;"	f	file:
+real_color	libs/console.h	/^typedef enum real_color{$/;"	g
+real_color_t	libs/console.h	/^} real_color_t;$/;"	t	typeref:enum:real_color
 s	Makefile	/^	dd bs=512 count=1000 if=\/dev\/zero of=bin\/floppy.img$/;"	m
 s	Makefile	/^	dd bs=512 if=bin\/bootloader of=bin\/floppy.img conv=notrunc$/;"	m
-start	boot/bootasm.s	/^    start:$/;"	l
+s	Makefile	/^	dd bs=512 if=bin\/kernel of=bin\/floppy.img seek=1 conv=notrunc$/;"	m
+scroll	kernel/console.c	/^static void scroll(){$/;"	f	file:
+size_t	libs/types.h	/^typedef unsigned int       size_t;$/;"	t
+ssize_t	libs/types.h	/^typedef          int       ssize_t;$/;"	t
+start	boot/bootasm.S	/^start:$/;"	l
 uint16_t	libs/types.h	/^typedef unsigned short uint16_t;$/;"	t
 uint32_t	libs/types.h	/^typedef unsigned int   uint32_t;$/;"	t
 uint8_t	libs/types.h	/^typedef unsigned char  uint8_t;$/;"	t
+uintptr_t	libs/types.h	/^typedef uint32_t uintptr_t;$/;"	t
+va_arg	libs/types.h	/^#define va_arg(/;"	d
+va_end	libs/types.h	/^#define va_end(/;"	d
+va_list	libs/types.h	/^typedef __builtin_va_list va_list;$/;"	t
+va_start	libs/types.h	/^#define va_start(/;"	d
+video_memory	kernel/console.c	/^static uint16_t *video_memory = (uint16_t *)0xB8000;$/;"	v	file:
+vsprintf	kernel/stdio.c	/^int vsprintf(char * buffer, const char * format,va_list args){$/;"	f
+waitdisk	boot/bootmain.c	/^waitdisk(void) {$/;"	f	file:

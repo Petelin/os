@@ -1,5 +1,5 @@
-#include <libs/types.h>
-#include <libs/elf.h>
+#include <types.h>
+#include <elf.h>
 
 unsigned int    SECTSIZE  =      512 ;
 struct elfhdr * ELFHDR    =      ((struct elfhdr *)0x10000) ;     // scratch space
