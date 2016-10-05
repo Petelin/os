@@ -15,11 +15,39 @@ ELF_MAGIC	libs/elf.h	/^#define ELF_MAGIC /;"	d
 FALSE	libs/types.h	/^	#define FALSE /;"	d
 INCLUDE_ASM_H_	libs/i386.h	/^#define INCLUDE_ASM_H_$/;"	d
 INCLUDE_CONSOLE_H_	libs/console.h	/^#define INCLUDE_CONSOLE_H_$/;"	d
+INCLUDE_DEBUG_H_	libs/debug.h	/^#define INCLUDE_DEBUG_H_$/;"	d
 INCLUDE_STRING_H_	libs/string.h	/^#define INCLUDE_STRING_H_$/;"	d
 INCLUDE_TYPES_H_	libs/types.h	/^#define INCLUDE_TYPES_H_$/;"	d
 LD	Makefile	/^LD = i386-elf-ld$/;"	m
 LD_FLAGS	Makefile	/^LD_FLAGS = -T scripts\/kernel.ld -m elf_i386 -nostdlib$/;"	m
+LPTPORT	kernel/console.c	/^#define LPTPORT /;"	d	file:
 NULL	libs/types.h	/^	#define NULL /;"	d
+N_BCOMM	libs/stab.h	/^#define N_BCOMM /;"	d
+N_BINCL	libs/stab.h	/^#define N_BINCL /;"	d
+N_BSLINE	libs/stab.h	/^#define N_BSLINE /;"	d
+N_DSLINE	libs/stab.h	/^#define N_DSLINE /;"	d
+N_ECOML	libs/stab.h	/^#define N_ECOML /;"	d
+N_ECOMM	libs/stab.h	/^#define N_ECOMM /;"	d
+N_EINCL	libs/stab.h	/^#define N_EINCL /;"	d
+N_ENTRY	libs/stab.h	/^#define N_ENTRY /;"	d
+N_EXCL	libs/stab.h	/^#define N_EXCL /;"	d
+N_FNAME	libs/stab.h	/^#define N_FNAME /;"	d
+N_FUN	libs/stab.h	/^#define N_FUN /;"	d
+N_GSYM	libs/stab.h	/^#define N_GSYM /;"	d
+N_LBRAC	libs/stab.h	/^#define N_LBRAC /;"	d
+N_LCSYM	libs/stab.h	/^#define N_LCSYM /;"	d
+N_LENG	libs/stab.h	/^#define N_LENG /;"	d
+N_LSYM	libs/stab.h	/^#define N_LSYM /;"	d
+N_MAIN	libs/stab.h	/^#define N_MAIN /;"	d
+N_PC	libs/stab.h	/^#define N_PC /;"	d
+N_PSYM	libs/stab.h	/^#define N_PSYM /;"	d
+N_RBRAC	libs/stab.h	/^#define N_RBRAC /;"	d
+N_RSYM	libs/stab.h	/^#define N_RSYM /;"	d
+N_SLINE	libs/stab.h	/^#define N_SLINE /;"	d
+N_SO	libs/stab.h	/^#define N_SO /;"	d
+N_SOL	libs/stab.h	/^#define N_SOL /;"	d
+N_SSYM	libs/stab.h	/^#define N_SSYM /;"	d
+N_STSYM	libs/stab.h	/^#define N_STSYM /;"	d
 OBCP	Makefile	/^OBCP = i386-elf-objcopy$/;"	m
 SECTSIZE	boot/bootmain.c	/^unsigned int    SECTSIZE  =      512 ;$/;"	v
 SEG_ASM	boot/asm.h	/^#define SEG_ASM(/;"	d
@@ -33,8 +61,10 @@ STA_X	boot/asm.h	/^#define STA_X /;"	d
 TRUE	libs/types.h	/^	#define TRUE /;"	d
 _INCLUDE_STDIO_H_	libs/stdio.h	/^#define _INCLUDE_STDIO_H_$/;"	d
 __BOOT_ASM_H__	boot/asm.h	/^#define __BOOT_ASM_H__$/;"	d
+__KERN_DEBUG_STAB_H__	libs/stab.h	/^#define __KERN_DEBUG_STAB_H__$/;"	d
 __LIBS_ELF_H__	libs/elf.h	/^#define __LIBS_ELF_H__$/;"	d
 bootmain	boot/bootmain.c	/^bootmain(void) {$/;"	f
+bzero	kernel/string.c	/^void bzero(char *dest, unsigned int len){$/;"	f
 console_clear	kernel/console.c	/^void console_clear(){$/;"	f
 console_init	kernel/console.c	/^void console_init(){$/;"	f
 console_putc_color	kernel/console.c	/^void console_putc_color(char c, real_color_t back, real_color_t fore){$/;"	f
@@ -61,23 +91,33 @@ e_shstrndx	libs/elf.h	/^    uint16_t e_shstrndx;  \/\/ section number that conta
 e_type	libs/elf.h	/^    uint16_t e_type;      \/\/ 1=relocatable, 2=executable, 3=shared object, 4=core image$/;"	m	struct:elfhdr
 e_version	libs/elf.h	/^    uint32_t e_version;   \/\/ file version, always 1$/;"	m	struct:elfhdr
 elfhdr	libs/elf.h	/^struct elfhdr {$/;"	s
-format_to_str	kernel/stdio.c	/^static format_to_str(const char *format, va_list args){$/;"	f	file:
-gdt	boot/bootasm.S	/^gdt:$/;"	l
-gdtdesc	boot/bootasm.S	/^gdtdesc:$/;"	l
+format_to_str	kernel/stdio.c	/^static char * format_to_str(const char *format, va_list args){$/;"	f	file:
+gdt	boot/bootasm.s	/^gdt:$/;"	l
+gdtdesc	boot/bootasm.s	/^gdtdesc:$/;"	l
 get_cursor	kernel/console.c	/^void get_cursor(){$/;"	f
+grade_backtrace	kernel/debug/debug.c	/^void grade_backtrace(){$/;"	f
+grade_backtrace1	kernel/debug/debug.c	/^static void grade_backtrace1(int arg1){$/;"	f	file:
 inb	boot/bootmain.c	/^inb(uint16_t port) {$/;"	f	file:
-inb	libs/i386.h	/^inline uint8_t inb(uint16_t port){$/;"	f
+inb	libs/i386.h	/^static inline uint8_t inb(uint16_t port){$/;"	f
 insl	boot/bootmain.c	/^insl(uint32_t port, void *addr, int cnt) {$/;"	f	file:
 int16_t	libs/types.h	/^typedef          short int16_t;$/;"	t
-int2str	kernel/string.c	/^char * int2str(uint32_t n, char type){$/;"	f
+int2str	kernel/string.c	/^char * int2str(unsigned int n, char type){$/;"	f
 int32_t	libs/types.h	/^typedef          int   int32_t;$/;"	t
 int8_t	libs/types.h	/^typedef signed 	 char  int8_t;$/;"	t
-inw	libs/i386.h	/^inline uint16_t inw(uint16_t port){$/;"	f
+inw	libs/i386.h	/^static inline uint16_t inw(uint16_t port){$/;"	f
 kern_init	kernel/kernel_init.c	/^int kern_init(){$/;"	f
+lpt_putc_sub	kernel/console.c	/^static void lpt_putc_sub(int c) {$/;"	f	file:
 main	scripts/sign.c	/^main(int argc, char *argv[]) {$/;"	f
+memcpy	kernel/string.c	/^void memcpy(char *dest, const char *src, unsigned int len){$/;"	f
+memset	kernel/string.c	/^void memset(char *dest, char c, unsigned int len){$/;"	f
 move_cs	kernel/console.c	/^static void move_cs(){$/;"	f	file:
+n_desc	libs/stab.h	/^    uint16_t n_desc;        \/\/ description field$/;"	m	struct:stab
+n_other	libs/stab.h	/^    uint8_t n_other;        \/\/ misc info (usually empty)$/;"	m	struct:stab
+n_strx	libs/stab.h	/^    uint32_t n_strx;        \/\/ index into string table of name$/;"	m	struct:stab
+n_type	libs/stab.h	/^    uint8_t n_type;         \/\/ type of symbol$/;"	m	struct:stab
+n_value	libs/stab.h	/^    uintptr_t n_value;      \/\/ value of symbol$/;"	m	struct:stab
 outb	boot/bootmain.c	/^outb(uint16_t port, uint8_t data) {$/;"	f	file:
-outb	libs/i386.h	/^inline void outb(uint16_t port, uint8_t value){$/;"	f
+outb	libs/i386.h	/^static inline void outb(uint16_t port, uint8_t value){$/;"	f
 outw	boot/bootmain.c	/^outw(uint16_t port, uint16_t data) {$/;"	f	file:
 p_align	libs/elf.h	/^    uint32_t p_align;  \/\/ required alignment, invariably hardware page size$/;"	m	struct:proghdr
 p_filesz	libs/elf.h	/^    uint32_t p_filesz; \/\/ size of segment in file$/;"	m	struct:proghdr
@@ -87,9 +127,10 @@ p_offset	libs/elf.h	/^    uint32_t p_offset; \/\/ file offset of segment$/;"	m	s
 p_pa	libs/elf.h	/^    uint32_t p_pa;     \/\/ physical address, not used$/;"	m	struct:proghdr
 p_type	libs/elf.h	/^    uint32_t p_type;   \/\/ loadable code or data, dynamic linking info,etc.$/;"	m	struct:proghdr
 p_va	libs/elf.h	/^    uint32_t p_va;     \/\/ virtual address to map segment$/;"	m	struct:proghdr
+print_stab	kernel/debug/debug.c	/^void print_stab(){$/;"	f
 printf	kernel/stdio.c	/^void printf(const char *format, ...){$/;"	f
 proghdr	libs/elf.h	/^struct proghdr {$/;"	s
-protcseg	boot/bootasm.S	/^protcseg:$/;"	l
+protcseg	boot/bootasm.s	/^protcseg:$/;"	l
 rc_black	libs/console.h	/^    rc_black = 0,$/;"	e	enum:real_color
 rc_blue	libs/console.h	/^    rc_blue = 1,$/;"	e	enum:real_color
 rc_brown	libs/console.h	/^    rc_brown = 6,$/;"	e	enum:real_color
@@ -106,6 +147,7 @@ rc_light_red	libs/console.h	/^    rc_light_red = 12,$/;"	e	enum:real_color
 rc_magenta	libs/console.h	/^    rc_magenta = 5,$/;"	e	enum:real_color
 rc_red	libs/console.h	/^    rc_red = 4,$/;"	e	enum:real_color
 rc_white	libs/console.h	/^    rc_white = 15$/;"	e	enum:real_color
+read_ebp	libs/i386.h	/^static inline uint32_t read_ebp(){$/;"	f
 readsect	boot/bootmain.c	/^readsect(void *dst, uint32_t secno) {$/;"	f	file:
 readseg	boot/bootmain.c	/^readseg(uintptr_t va, uint32_t count, uint32_t offset) {$/;"	f	file:
 real_color	libs/console.h	/^typedef enum real_color{$/;"	g
@@ -116,7 +158,18 @@ s	Makefile	/^	dd bs=512 if=bin\/kernel of=bin\/floppy.img seek=1 conv=notrunc$/;
 scroll	kernel/console.c	/^static void scroll(){$/;"	f	file:
 size_t	libs/types.h	/^typedef unsigned int       size_t;$/;"	t
 ssize_t	libs/types.h	/^typedef          int       ssize_t;$/;"	t
-start	boot/bootasm.S	/^start:$/;"	l
+stab	libs/stab.h	/^typedef struct stab {$/;"	s
+stab_bsearch	kernel/debug/debug.c	/^struct stab * stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t type){$/;"	f
+stab_end	kernel/debug/debug.c	/^static stab_t *stab_end;$/;"	v	file:
+stab_t	libs/stab.h	/^} stab_t;$/;"	t	typeref:struct:stab
+stabs	kernel/debug/debug.c	/^static stab_t *stabs;$/;"	v	file:
+stabstr	kernel/debug/debug.c	/^static char *stabstr = __STABSTR_BEGIN__;$/;"	v	file:
+stabstr_end	kernel/debug/debug.c	/^static char *stabstr_end = __STABSTR_END__;$/;"	v	file:
+start	boot/bootasm.s	/^start:$/;"	l
+strcat	kernel/string.c	/^char *strcat(char *dest, const char *src){$/;"	f
+strcmp	kernel/string.c	/^int strcmp(const char *str1, const char *str2){$/;"	f
+strcpy	kernel/string.c	/^char *strcpy(char *dest, const char *src){$/;"	f
+strlen	kernel/string.c	/^int strlen(const char *s){$/;"	f
 uint16_t	libs/types.h	/^typedef unsigned short uint16_t;$/;"	t
 uint32_t	libs/types.h	/^typedef unsigned int   uint32_t;$/;"	t
 uint8_t	libs/types.h	/^typedef unsigned char  uint8_t;$/;"	t

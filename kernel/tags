@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+bzero	string.c	/^void bzero(char *dest, unsigned int len){$/;"	f
+console_clear	console.c	/^void console_clear(){$/;"	f
+console_init	console.c	/^void console_init(){$/;"	f
+console_putc_color	console.c	/^void console_putc_color(char c, real_color_t back, real_color_t fore){$/;"	f
+console_write	console.c	/^void console_write(char *cstr){$/;"	f
+console_write_color	console.c	/^void console_write_color(char *cstr, real_color_t back, real_color_t fore){$/;"	f
+console_write_dec	console.c	/^void console_write_dec(uint32_t n, real_color_t back, real_color_t fore){$/;"	f
+console_write_hex	console.c	/^void console_write_hex(uint32_t n, real_color_t back, real_color_t fore){$/;"	f
+cprintf	stdio.c	/^void cprintf(const char *format, real_color_t back, real_color_t fore, ...){$/;"	f
+cs_x	console.c	/^static int8_t cs_x = 0;$/;"	v	file:
+cs_y	console.c	/^static int8_t cs_y = 0;$/;"	v	file:
+format_to_str	stdio.c	/^static char * format_to_str(const char *format, va_list args){$/;"	f	file:
+get_cursor	console.c	/^void get_cursor(){$/;"	f
+grade_backtrace	debug/debug.c	/^grade_backtrace(){$/;"	f
+int2str	string.c	/^char * int2str(unsigned int n, char type){$/;"	f
+kern_init	kernel_init.c	/^int kern_init(){$/;"	f
+memcpy	string.c	/^void memcpy(char *dest, const char *src, unsigned int len){$/;"	f
+memset	string.c	/^void memset(char *dest, char c, unsigned int len){$/;"	f
+move_cs	console.c	/^static void move_cs(){$/;"	f	file:
+printf	stdio.c	/^void printf(const char *format, ...){$/;"	f
+scroll	console.c	/^static void scroll(){$/;"	f	file:
+strcat	string.c	/^char *strcat(char *dest, const char *src){$/;"	f
+strcmp	string.c	/^int strcmp(const char *str1, const char *str2){$/;"	f
+strcpy	string.c	/^char *strcpy(char *dest, const char *src){$/;"	f
+strlen	string.c	/^int strlen(const char *s){$/;"	f
+video_memory	console.c	/^static uint16_t *video_memory = (uint16_t *)0xB8000;$/;"	v	file:
+vsprintf	stdio.c	/^int vsprintf(char * buffer, const char * format,va_list args){$/;"	f

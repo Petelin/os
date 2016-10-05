@@ -5,7 +5,7 @@ CC = i386-elf-gcc
 LD = i386-elf-ld
 OBCP = i386-elf-objcopy
 
-C_FLAGS = -fno-builtin -Wall -ggdb  -gstabs -fno-stack-protector -nostdinc -Os -Ilibs -Ikernel -g -m32 -c
+C_FLAGS = -fno-builtin -Wall -ggdb  -gstabs -fno-stack-protector -nostdinc -Ilibs -Ikernel -g -m32 -c
 LD_FLAGS = -T scripts/kernel.ld -m elf_i386 -nostdlib
 
 C_LIB_SOURCES = $(shell find libs -name "*.c")
@@ -22,8 +22,8 @@ bin/floppy.img: bin/bootloader bin/kernel
 	dd bs=512 if=bin/kernel of=bin/floppy.img seek=1 conv=notrunc
 
 bin/bootloader: bin/sign boot/bootasm.s boot/bootmain.c
-	$(CC) $(C_FLAGS) -Iboot boot/bootasm.S -o temp/bootasm.o
-	$(CC) $(C_FLAGS) -I. boot/bootmain.c -o temp/bootmain.o
+	$(CC) $(C_FLAGS) -Iboot -Os boot/bootasm.S -o temp/bootasm.o
+	$(CC) $(C_FLAGS) -I. -Os boot/bootmain.c -o temp/bootmain.o
 	$(LD) -m elf_i386 -nostdlib -N -e start -Ttext 0x7C00 temp/bootasm.o temp/bootmain.o -o temp/bootloader.out
 	$(OBCP) -S -O binary temp/bootloader.out temp/bootloader
 	bin/sign temp/bootloader bin/bootloader
@@ -48,15 +48,17 @@ qemu:
 
 .PHONY:debug
 debug:
-	qemu -parallel stdio -hda bin/floppy.img -serial null -S -s &
-	gdb -ex 'target remote localhost:1234' \
+	qemu-system-i386 -parallel stdio -hda bin/floppy.img -serial null -S -s &
+	i386-elf-gdb -ex 'target remote localhost:1234' \
 	    -ex 'set disassembly-flavor intel' \
 		-ex 'set architecture i386' \
 	    -ex 'break *0x7c00' \
+	    -ex 'break *0x100000' \
 		-ex 'continue'
 
-
+RM := rm -r
 .PHONY:clean
 clean:
-	@rm -rf bin/*
-	@rm -rf temp/*
+	-$(RM) -f bin/*
+	-$(RM) -f $(C_LIB_OBJECTS) $(C_KERNEL_OBJECTS)
+

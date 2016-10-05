@@ -64,10 +64,17 @@ int vsprintf(char * buffer, const char * format,va_list args){
                     buffer[i++] = 'x';
                     n = va_arg(args, int);
                     t = int2str(n,16);
+                    uint16_t len = 8 - strlen(t);
+                    while(len--){
+                        buffer[i++]='0';
+                    }
                     while (*t != '\0'){
                         buffer[i++] = *t++;
                     }
                     i--;
+                    break;
+                case '%':
+                    buffer[i] = '%';
                     break;
             }
             format++;

@@ -13,12 +13,9 @@ static int8_t cs_y = 0;
 
 void console_init(){
     console_clear();
-    char s[100] = "dsaer123";
-    char * p = "...dsaer123";
-    printf("%d, len: %s::\n",strlen(s) ,strcat(s,p));
-    printf(s);
 
-    printf("\n%s\n", "hello kernel!");
+    cprintf("%s\n",rc_black, rc_red, "hello kernel!");
+
     cprintf("%s\n", rc_black, rc_light_green, "*. printf(char * format, ...)");
 }
 
@@ -79,7 +76,7 @@ void console_putc_color(char c, real_color_t back, real_color_t fore){
             cs_x--;
             break;
         case 0x09:
-            cs_x = cs_x & 0b1000;
+            cs_x |= 0x08;
             break;
         case '\r':
             cs_x=0;
@@ -110,9 +107,19 @@ void console_write(char *cstr){
     console_write_color(cstr,rc_black,rc_white);
 }
 
+static void lpt_putc_sub(int c) {
+#define LPTPORT 0x378
+    outb(LPTPORT + 0, c);
+    outb(LPTPORT + 2, 0x08 | 0x04 | 0x01);
+    outb(LPTPORT + 2, 0x08);
+}
+
 // 屏幕打印一个以 \0 结尾的字符串带颜色
 void console_write_color(char *cstr, real_color_t back, real_color_t fore){
     while (*cstr != '\0') {
+        // 在启动qemu的命令行打印
+        lpt_putc_sub(*cstr);
+        // 在qemu 模拟屏幕中打印
         console_putc_color(*cstr++,back,fore);
     }
 }
