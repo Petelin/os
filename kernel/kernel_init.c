@@ -4,7 +4,6 @@
 #include "debug.h"
 #include "i386.h"
 #include "idt.h"
-#include "gdt.h"
 
 int kern_init(){
     // 清屏
