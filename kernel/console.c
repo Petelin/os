@@ -2,6 +2,7 @@
 #include "string.h"
 #include "types.h"
 #include "i386.h"
+#include "stdio.h"
 
 static void scroll();
 
@@ -13,9 +14,7 @@ static int8_t cs_y = 0;
 
 void console_init(){
     console_clear();
-
-    cprintf("%s\n",rc_black, rc_red, "hello kernel!");
-
+    cprintf("%s\n", rc_black, rc_red, "hello kernel!");
     cprintf("%s\n", rc_black, rc_light_green, "*. printf(char * format, ...)");
 }
 

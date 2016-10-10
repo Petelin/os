@@ -7,16 +7,17 @@ extern stab_t __STAB_END__[];    // end of stabs table
 extern char __STABSTR_BEGIN__[];      // beginning of string table
 extern char __STABSTR_END__[];
 
-static stab_t *stabs;
-static stab_t *stab_end;
 static char *stabstr = __STABSTR_BEGIN__;
-static char *stabstr_end = __STABSTR_END__;
+/*static char *stabstr_end = __STABSTR_END__;*/
+static stab_t *stabs = __STAB_BEGIN__;
+static stab_t *stab_end =  __STAB_END__;
 
-struct stab * stab_bsearch(uint32_t eip, int* l, int *r, uint8_t type);
+static void stab_bsearch(uint32_t eip, int* l, int *r, uint8_t type);
 static void grade_backtrace1(int arg1);
 static void grade_backtrace2(int arg1, int arg2);
 
 void grade_backtrace(){
+    printf("************trace grade\n");
     grade_backtrace1(0x1111);
 }
 
@@ -50,9 +51,7 @@ static void grade_backtrace2(int arg1, int arg2){
     }
 }
 
-struct stab * stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t type){
-    stabs = __STAB_BEGIN__;
-    stab_end = __STAB_END__;
+static void stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t type){
     int l = *region_l, r = *region_r;
     while(l < r){
         int true_m = (l+r)/2, m = true_m;
@@ -84,8 +83,6 @@ struct stab * stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t ty
 }
 
 void print_stab(){
-    stabs = __STAB_BEGIN__;
-    stab_end = __STAB_END__;
     uint32_t i = 0;
     while (1){
         if (stabs + i >= stab_end){

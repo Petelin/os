@@ -2,7 +2,7 @@
 # include "string.h"
 
 // 制定位数返回结果字符数组
-char * int2str(unsigned int n, char type){
+char * int2str(uint32_t n, uint8_t type){
     char table[] = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
     static char tmp[12];
     int i = 0;
@@ -24,20 +24,20 @@ char * int2str(unsigned int n, char type){
     return tmp;
 }
 
-void memcpy(char *dest, const char *src, unsigned int len){
+void memcpy(uint8_t *dest, const uint8_t *src, uint32_t len){
     while(--len > 0){
         *(dest + len) = *(src +len);
     }
 }
 
-void memset(char *dest, char c, unsigned int len){
+void memset(uint8_t *dest, const uint8_t c, uint32_t len){
     while(--len > 0){
         *(dest + len) = c;
     }
 }
 
-void bzero(char *dest, unsigned int len){
-    memset(dest,'0', len);
+void bzero(uint8_t *dest, uint32_t len){
+    memset(dest, 0, len);
 }
 
 int strcmp(const char *str1, const char *str2){
@@ -50,7 +50,8 @@ int strcmp(const char *str1, const char *str2){
 }
 
 char *strcpy(char *dest, const char *src){
-    memcpy(dest, src, strlen(src));
+    memcpy((uint8_t *)dest, (const uint8_t *)src, strlen(src));
+    return dest;
 }
 
 // 追加一个字符

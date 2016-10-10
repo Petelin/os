@@ -60,7 +60,7 @@ int vsprintf(char * buffer, const char * format,va_list args){
                     i--;
                     break;
                 case 'p':
-                    buffer[i++] = 'O';
+                    buffer[i++] = '0';
                     buffer[i++] = 'x';
                     n = va_arg(args, int);
                     t = int2str(n,16);

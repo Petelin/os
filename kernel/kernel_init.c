@@ -3,16 +3,28 @@
 #include "stdio.h"
 #include "debug.h"
 #include "i386.h"
+#include "idt.h"
+#include "gdt.h"
 
 int kern_init(){
-    console_init();
-    printf("func \"kernel_init\" address: %p \n", kern_init);
+    // 清屏
+    console_clear();
+
+
+    // 打印符号表
     print_stab();
-    printf ("--*-- print trace --*--\n");
-    unsigned int ebp = read_ebp();
-    unsigned int eip = *((unsigned int *)ebp + 1);
-    printf("%x,%x \n",ebp,eip);
+
+    // 打印函数调用栈
     grade_backtrace();
+
+    //初始化中断
+    init_idt();
+
+    // 清屏+打印
+    console_init();
+
+    int a = 1/0;
+    asm volatile ("int $0x3");
 
     while (1);
     return 0;

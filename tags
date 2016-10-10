@@ -4,8 +4,10 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+ASM	Makefile	/^ASM = nasm$/;"	m
+ASM_FLAGS	Makefile	/^ASM_FLAGS = -f elf -g -F stabs$/;"	m
 CC	Makefile	/^CC = i386-elf-gcc$/;"	m
-C_FLAGS	Makefile	/^C_FLAGS = -fno-builtin -Wall -ggdb  -gstabs -fno-stack-protector -nostdinc -Os -Ilibs -Ikernel -g -m32 -c$/;"	m
+C_FLAGS	Makefile	/^C_FLAGS = -fno-builtin -Wall -ggdb  -gstabs -fno-stack-protector -nostdinc -Ilibs -Ikernel -g -m32 -c$/;"	m
 C_KERNEL_OBJECTS	Makefile	/^C_KERNEL_OBJECTS = $(patsubst kernel\/%.c, temp\/%.o, $(C_KERNEL_SOURCES))$/;"	m
 C_KERNEL_SOURCES	Makefile	/^C_KERNEL_SOURCES = $(shell find kernel -name "*.c")$/;"	m
 C_LIB_OBJECTS	Makefile	/^C_LIB_OBJECTS = $(patsubst libs\/%.c, temp\/%.o, $(C_LIB_SOURCES))$/;"	m
@@ -16,8 +18,58 @@ FALSE	libs/types.h	/^	#define FALSE /;"	d
 INCLUDE_ASM_H_	libs/i386.h	/^#define INCLUDE_ASM_H_$/;"	d
 INCLUDE_CONSOLE_H_	libs/console.h	/^#define INCLUDE_CONSOLE_H_$/;"	d
 INCLUDE_DEBUG_H_	libs/debug.h	/^#define INCLUDE_DEBUG_H_$/;"	d
+INCLUDE_IDT_H_	libs/idt.h	/^#define INCLUDE_IDT_H_$/;"	d
 INCLUDE_STRING_H_	libs/string.h	/^#define INCLUDE_STRING_H_$/;"	d
 INCLUDE_TYPES_H_	libs/types.h	/^#define INCLUDE_TYPES_H_$/;"	d
+IRQ0	libs/idt.h	/^#define  IRQ0 /;"	d
+IRQ1	libs/idt.h	/^#define  IRQ1 /;"	d
+IRQ10	libs/idt.h	/^#define  IRQ10 /;"	d
+IRQ11	libs/idt.h	/^#define  IRQ11 /;"	d
+IRQ12	libs/idt.h	/^#define  IRQ12 /;"	d
+IRQ13	libs/idt.h	/^#define  IRQ13 /;"	d
+IRQ14	libs/idt.h	/^#define  IRQ14 /;"	d
+IRQ15	libs/idt.h	/^#define  IRQ15 /;"	d
+IRQ2	libs/idt.h	/^#define  IRQ2 /;"	d
+IRQ3	libs/idt.h	/^#define  IRQ3 /;"	d
+IRQ4	libs/idt.h	/^#define  IRQ4 /;"	d
+IRQ5	libs/idt.h	/^#define  IRQ5 /;"	d
+IRQ6	libs/idt.h	/^#define  IRQ6 /;"	d
+IRQ7	libs/idt.h	/^#define  IRQ7 /;"	d
+IRQ8	libs/idt.h	/^#define  IRQ8 /;"	d
+IRQ9	libs/idt.h	/^#define  IRQ9 /;"	d
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE    8 	; 8 #DF 双重故障(有错误代码) $/;"	l
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE   10 	; 10 #TS 无效TSS(有错误代码) $/;"	l
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE   11 	; 11 #NP 段不存在(有错误代码) $/;"	l
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE   12 	; 12 #SS 栈错误(有错误代码) $/;"	l
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE   13 	; 13 #GP 常规保护(有错误代码) $/;"	l
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE   14 	; 14 #PF 页故障(有错误代码) $/;"	l
+ISR_ERRCODE	kernel/idt/idt_s.s	/^ISR_ERRCODE   17 	; 17 #AC 对齐检查 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  0 	; 0 #DE 除 0 异常$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  1 	; 1 #DB 调试异常$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  2 	; 2 NMI$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  3 	; 3 BP 断点异常 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  4 	; 4 #OF 溢出 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  5 	; 5 #BR 对数组的引用超出边界 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  6 	; 6 #UD 无效或未定义的操作码 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  7 	; 7 #NM 设备不可用(无数学协处理器) $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE  9 	; 9 协处理器跨段操作$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 15 	; 15 CPU 保留 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 16 	; 16 #MF 浮点处理单元错误 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 18 	; 18 #MC 机器检查 $/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 19 	; 19 #XM SIMD(单指令多数据)浮点异常$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 20$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 21$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 22$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 23$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 24$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 25$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 255$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 26$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 27$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 28$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 29$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 30$/;"	l
+ISR_NOERRCODE	kernel/idt/idt_s.s	/^ISR_NOERRCODE 31$/;"	l
 LD	Makefile	/^LD = i386-elf-ld$/;"	m
 LD_FLAGS	Makefile	/^LD_FLAGS = -T scripts\/kernel.ld -m elf_i386 -nostdlib$/;"	m
 LPTPORT	kernel/console.c	/^#define LPTPORT /;"	d	file:
@@ -49,6 +101,7 @@ N_SOL	libs/stab.h	/^#define N_SOL /;"	d
 N_SSYM	libs/stab.h	/^#define N_SSYM /;"	d
 N_STSYM	libs/stab.h	/^#define N_STSYM /;"	d
 OBCP	Makefile	/^OBCP = i386-elf-objcopy$/;"	m
+RM	Makefile	/^RM := rm -r$/;"	m
 SECTSIZE	boot/bootmain.c	/^unsigned int    SECTSIZE  =      512 ;$/;"	v
 SEG_ASM	boot/asm.h	/^#define SEG_ASM(/;"	d
 SEG_NULLASM	boot/asm.h	/^#define SEG_NULLASM /;"	d
@@ -58,13 +111,19 @@ STA_E	boot/asm.h	/^#define STA_E /;"	d
 STA_R	boot/asm.h	/^#define STA_R /;"	d
 STA_W	boot/asm.h	/^#define STA_W /;"	d
 STA_X	boot/asm.h	/^#define STA_X /;"	d
+S_KERNEL_OBJECTS	Makefile	/^S_KERNEL_OBJECTS = $(patsubst kernel\/%.s, temp\/%.o, $(S_KERNEL_SOURCES))$/;"	m
+S_KERNEL_SOURCES	Makefile	/^S_KERNEL_SOURCES = $(shell find kernel -name "*.s")$/;"	m
 TRUE	libs/types.h	/^	#define TRUE /;"	d
 _INCLUDE_STDIO_H_	libs/stdio.h	/^#define _INCLUDE_STDIO_H_$/;"	d
 __BOOT_ASM_H__	boot/asm.h	/^#define __BOOT_ASM_H__$/;"	d
 __KERN_DEBUG_STAB_H__	libs/stab.h	/^#define __KERN_DEBUG_STAB_H__$/;"	d
 __LIBS_ELF_H__	libs/elf.h	/^#define __LIBS_ELF_H__$/;"	d
+always0	libs/idt.h	/^	uint8_t  always0;        \/\/ 置 0 段$/;"	m	struct:idt_entry_t
+base	libs/idt.h	/^	uint32_t base; 		\/\/ 基址$/;"	m	struct:idt_ptr_t
+base_hi	libs/idt.h	/^	uint16_t base_hi;        \/\/ 中断处理函数地址 31～16 位$/;"	m	struct:idt_entry_t
+base_lo	libs/idt.h	/^	uint16_t base_lo;        \/\/ 中断处理函数地址 15～0 位$/;"	m	struct:idt_entry_t
 bootmain	boot/bootmain.c	/^bootmain(void) {$/;"	f
-bzero	kernel/string.c	/^void bzero(char *dest, unsigned int len){$/;"	f
+bzero	kernel/string.c	/^void bzero(uint8_t *dest, uint32_t len){$/;"	f
 console_clear	kernel/console.c	/^void console_clear(){$/;"	f
 console_init	kernel/console.c	/^void console_init(){$/;"	f
 console_putc_color	kernel/console.c	/^void console_putc_color(char c, real_color_t back, real_color_t fore){$/;"	f
@@ -73,8 +132,10 @@ console_write_color	kernel/console.c	/^void console_write_color(char *cstr, real
 console_write_dec	kernel/console.c	/^void console_write_dec(uint32_t n, real_color_t back, real_color_t fore){$/;"	f
 console_write_hex	kernel/console.c	/^void console_write_hex(uint32_t n, real_color_t back, real_color_t fore){$/;"	f
 cprintf	kernel/stdio.c	/^void cprintf(const char *format, real_color_t back, real_color_t fore, ...){$/;"	f
+cs	libs/idt.h	/^	uint32_t cs;$/;"	m	struct:pt_regs_t
 cs_x	kernel/console.c	/^static int8_t cs_x = 0;$/;"	v	file:
 cs_y	kernel/console.c	/^static int8_t cs_y = 0;$/;"	v	file:
+ds	libs/idt.h	/^	uint32_t ds;		\/\/ 用于保存用户的数据段描述符$/;"	m	struct:pt_regs_t
 e_ehsize	libs/elf.h	/^    uint16_t e_ehsize;    \/\/ size of this elf header$/;"	m	struct:elfhdr
 e_elf	libs/elf.h	/^    uint8_t e_elf[12];$/;"	m	struct:elfhdr
 e_entry	libs/elf.h	/^    uint32_t e_entry;     \/\/ entry point if executable$/;"	m	struct:elfhdr
@@ -90,26 +151,54 @@ e_shoff	libs/elf.h	/^    uint32_t e_shoff;     \/\/ file position of section hea
 e_shstrndx	libs/elf.h	/^    uint16_t e_shstrndx;  \/\/ section number that contains section name strings$/;"	m	struct:elfhdr
 e_type	libs/elf.h	/^    uint16_t e_type;      \/\/ 1=relocatable, 2=executable, 3=shared object, 4=core image$/;"	m	struct:elfhdr
 e_version	libs/elf.h	/^    uint32_t e_version;   \/\/ file version, always 1$/;"	m	struct:elfhdr
+eax	libs/idt.h	/^	uint32_t eax;$/;"	m	struct:pt_regs_t
+ebp	libs/idt.h	/^	uint32_t ebp;$/;"	m	struct:pt_regs_t
+ebx	libs/idt.h	/^	uint32_t ebx;$/;"	m	struct:pt_regs_t
+ecx	libs/idt.h	/^	uint32_t ecx;$/;"	m	struct:pt_regs_t
+edi	libs/idt.h	/^	uint32_t edi; 		\/\/ 从 edi 到 eax 由 pusha 指令压入$/;"	m	struct:pt_regs_t
+edx	libs/idt.h	/^	uint32_t edx;$/;"	m	struct:pt_regs_t
+eflags	libs/idt.h	/^	uint32_t eflags;$/;"	m	struct:pt_regs_t
+eip	libs/idt.h	/^	uint32_t eip;		\/\/ 以下由处理器自动压入$/;"	m	struct:pt_regs_t
 elfhdr	libs/elf.h	/^struct elfhdr {$/;"	s
+err_code	libs/idt.h	/^	uint32_t err_code;  	\/\/ 错误代码(有中断错误代码的中断会由CPU压入)$/;"	m	struct:pt_regs_t
+esi	libs/idt.h	/^	uint32_t esi;$/;"	m	struct:pt_regs_t
+esp	libs/idt.h	/^	uint32_t esp;$/;"	m	struct:pt_regs_t
+flags	libs/idt.h	/^	uint8_t  flags;          \/\/ 一些标志，文档有解释$/;"	m	struct:idt_entry_t
 format_to_str	kernel/stdio.c	/^static char * format_to_str(const char *format, va_list args){$/;"	f	file:
 gdt	boot/bootasm.s	/^gdt:$/;"	l
 gdtdesc	boot/bootasm.s	/^gdtdesc:$/;"	l
 get_cursor	kernel/console.c	/^void get_cursor(){$/;"	f
 grade_backtrace	kernel/debug/debug.c	/^void grade_backtrace(){$/;"	f
 grade_backtrace1	kernel/debug/debug.c	/^static void grade_backtrace1(int arg1){$/;"	f	file:
+grade_backtrace2	kernel/debug/debug.c	/^static void grade_backtrace2(int arg1, int arg2){$/;"	f	file:
+idt_entries	kernel/idt/idt.c	/^idt_entry_t idt_entries[256];$/;"	v
+idt_entry_t	libs/idt.h	/^struct idt_entry_t {$/;"	s
+idt_entry_t	libs/idt.h	/^}__attribute__((packed)) idt_entry_t;$/;"	t	typeref:struct:idt_entry_t
+idt_flush	kernel/idt/idt_s.s	/^idt_flush:$/;"	l
+idt_ptr	kernel/idt/idt.c	/^idt_ptr_t idt_ptr;$/;"	v
+idt_ptr_t	libs/idt.h	/^struct idt_ptr_t {$/;"	s
+idt_ptr_t	libs/idt.h	/^} __attribute__((packed)) idt_ptr_t;$/;"	t	typeref:struct:idt_ptr_t
+idt_set_gate	kernel/idt/idt.c	/^static void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)$/;"	f	file:
 inb	boot/bootmain.c	/^inb(uint16_t port) {$/;"	f	file:
 inb	libs/i386.h	/^static inline uint8_t inb(uint16_t port){$/;"	f
+init_idt	kernel/idt/idt.c	/^void init_idt()$/;"	f
 insl	boot/bootmain.c	/^insl(uint32_t port, void *addr, int cnt) {$/;"	f	file:
 int16_t	libs/types.h	/^typedef          short int16_t;$/;"	t
-int2str	kernel/string.c	/^char * int2str(unsigned int n, char type){$/;"	f
+int2str	kernel/string.c	/^char * int2str(uint32_t n, uint8_t type){$/;"	f
 int32_t	libs/types.h	/^typedef          int   int32_t;$/;"	t
 int8_t	libs/types.h	/^typedef signed 	 char  int8_t;$/;"	t
+int_no	libs/idt.h	/^	uint32_t int_no; 	\/\/ 中断号$/;"	m	struct:pt_regs_t
+interrupt_handler_t	libs/idt.h	/^typedef void (*interrupt_handler_t)(pt_regs *);$/;"	t
+interrupt_handlers	kernel/idt/idt.c	/^interrupt_handler_t interrupt_handlers[256];$/;"	v
 inw	libs/i386.h	/^static inline uint16_t inw(uint16_t port){$/;"	f
+isr_common_stub	kernel/idt/idt_s.s	/^isr_common_stub:$/;"	l
+isr_handler	kernel/idt/idt.c	/^void isr_handler(pt_regs *regs)$/;"	f
 kern_init	kernel/kernel_init.c	/^int kern_init(){$/;"	f
+limit	libs/idt.h	/^	uint16_t limit; 	\/\/ 限长$/;"	m	struct:idt_ptr_t
 lpt_putc_sub	kernel/console.c	/^static void lpt_putc_sub(int c) {$/;"	f	file:
 main	scripts/sign.c	/^main(int argc, char *argv[]) {$/;"	f
-memcpy	kernel/string.c	/^void memcpy(char *dest, const char *src, unsigned int len){$/;"	f
-memset	kernel/string.c	/^void memset(char *dest, char c, unsigned int len){$/;"	f
+memcpy	kernel/string.c	/^void memcpy(uint8_t *dest, const uint8_t *src, uint32_t len){$/;"	f
+memset	kernel/string.c	/^void memset(uint8_t *dest, uint8_t c, uint32_t len){$/;"	f
 move_cs	kernel/console.c	/^static void move_cs(){$/;"	f	file:
 n_desc	libs/stab.h	/^    uint16_t n_desc;        \/\/ description field$/;"	m	struct:stab
 n_other	libs/stab.h	/^    uint8_t n_other;        \/\/ misc info (usually empty)$/;"	m	struct:stab
@@ -131,6 +220,8 @@ print_stab	kernel/debug/debug.c	/^void print_stab(){$/;"	f
 printf	kernel/stdio.c	/^void printf(const char *format, ...){$/;"	f
 proghdr	libs/elf.h	/^struct proghdr {$/;"	s
 protcseg	boot/bootasm.s	/^protcseg:$/;"	l
+pt_regs	libs/idt.h	/^} pt_regs;$/;"	t	typeref:struct:pt_regs_t
+pt_regs_t	libs/idt.h	/^struct pt_regs_t {$/;"	s
 rc_black	libs/console.h	/^    rc_black = 0,$/;"	e	enum:real_color
 rc_blue	libs/console.h	/^    rc_blue = 1,$/;"	e	enum:real_color
 rc_brown	libs/console.h	/^    rc_brown = 6,$/;"	e	enum:real_color
@@ -152,17 +243,20 @@ readsect	boot/bootmain.c	/^readsect(void *dst, uint32_t secno) {$/;"	f	file:
 readseg	boot/bootmain.c	/^readseg(uintptr_t va, uint32_t count, uint32_t offset) {$/;"	f	file:
 real_color	libs/console.h	/^typedef enum real_color{$/;"	g
 real_color_t	libs/console.h	/^} real_color_t;$/;"	t	typeref:enum:real_color
-s	Makefile	/^	dd bs=512 count=1000 if=\/dev\/zero of=bin\/floppy.img$/;"	m
+register_interrupt_handler	kernel/idt/idt.c	/^void register_interrupt_handler(uint8_t n, interrupt_handler_t h)$/;"	f
+s	Makefile	/^	dd bs=512 count=3000 if=\/dev\/zero of=bin\/floppy.img$/;"	m
 s	Makefile	/^	dd bs=512 if=bin\/bootloader of=bin\/floppy.img conv=notrunc$/;"	m
 s	Makefile	/^	dd bs=512 if=bin\/kernel of=bin\/floppy.img seek=1 conv=notrunc$/;"	m
 scroll	kernel/console.c	/^static void scroll(){$/;"	f	file:
+sel	libs/idt.h	/^	uint16_t sel;            \/\/ 目标代码段描述符选择子$/;"	m	struct:idt_entry_t
 size_t	libs/types.h	/^typedef unsigned int       size_t;$/;"	t
+ss	libs/idt.h	/^	uint32_t ss;$/;"	m	struct:pt_regs_t
 ssize_t	libs/types.h	/^typedef          int       ssize_t;$/;"	t
 stab	libs/stab.h	/^typedef struct stab {$/;"	s
 stab_bsearch	kernel/debug/debug.c	/^struct stab * stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t type){$/;"	f
-stab_end	kernel/debug/debug.c	/^static stab_t *stab_end;$/;"	v	file:
+stab_end	kernel/debug/debug.c	/^static stab_t *stab_end =  __STAB_END__;$/;"	v	file:
 stab_t	libs/stab.h	/^} stab_t;$/;"	t	typeref:struct:stab
-stabs	kernel/debug/debug.c	/^static stab_t *stabs;$/;"	v	file:
+stabs	kernel/debug/debug.c	/^static stab_t *stabs = __STAB_BEGIN__;$/;"	v	file:
 stabstr	kernel/debug/debug.c	/^static char *stabstr = __STABSTR_BEGIN__;$/;"	v	file:
 stabstr_end	kernel/debug/debug.c	/^static char *stabstr_end = __STABSTR_END__;$/;"	v	file:
 start	boot/bootasm.s	/^start:$/;"	l
@@ -174,6 +268,7 @@ uint16_t	libs/types.h	/^typedef unsigned short uint16_t;$/;"	t
 uint32_t	libs/types.h	/^typedef unsigned int   uint32_t;$/;"	t
 uint8_t	libs/types.h	/^typedef unsigned char  uint8_t;$/;"	t
 uintptr_t	libs/types.h	/^typedef uint32_t uintptr_t;$/;"	t
+useresp	libs/idt.h	/^	uint32_t useresp;$/;"	m	struct:pt_regs_t
 va_arg	libs/types.h	/^#define va_arg(/;"	d
 va_end	libs/types.h	/^#define va_end(/;"	d
 va_list	libs/types.h	/^typedef __builtin_va_list va_list;$/;"	t
