@@ -8,6 +8,7 @@ ENTRY(kern_init)
 SECTIONS {
 	/* Load the kernel at this address: "." means the current address */
 	. = 0x100000;
+    PROVIDE(__KERNEL_BEGIN__ = .);
 
 	.text : {
 		*(.text .stub .text.* .gnu.linkonce.t.*)
@@ -51,6 +52,7 @@ SECTIONS {
 	}
 
 	PROVIDE(end = .);
+    PROVIDE(__KERNEL_END__ = .);
 
 	/DISCARD/ : {
 		*(.eh_frame .note.GNU-stack)

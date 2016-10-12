@@ -20,7 +20,24 @@ INCLUDE_CONSOLE_H_	libs/console.h	/^#define INCLUDE_CONSOLE_H_$/;"	d
 INCLUDE_DEBUG_H_	libs/debug.h	/^#define INCLUDE_DEBUG_H_$/;"	d
 INCLUDE_IDT_H_	libs/idt.h	/^#define INCLUDE_IDT_H_$/;"	d
 INCLUDE_STRING_H_	libs/string.h	/^#define INCLUDE_STRING_H_$/;"	d
+INCLUDE_TIMER_H_	libs/timer.h	/^#define INCLUDE_TIMER_H_$/;"	d
 INCLUDE_TYPES_H_	libs/types.h	/^#define INCLUDE_TYPES_H_$/;"	d
+IRQ	kernel/idt/idt_s.s	/^IRQ   0,    32 	; 电脑系统计时器$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   1,    33 	; 键盘$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   2,    34 	; 与 IRQ9 相接，MPU-401 MD 使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   3,    35 	; 串口设备$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   4,    36 	; 串口设备$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   5,    37 	; 建议声卡使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   6,    38 	; 软驱传输控制使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   7,    39 	; 打印机传输控制使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   8,    40 	; 即时时钟$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ   9,    41 	; 与 IRQ2 相接，可设定给其他硬件$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ  10,    42 	; 建议网卡使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ  11,    43 	; 建议 AGP 显卡使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ  12,    44 	; 接 PS\/2 鼠标，也可设定给其他硬件$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ  13,    45 	; 协处理器使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ  14,    46 	; IDE0 传输控制使用$/;"	l
+IRQ	kernel/idt/idt_s.s	/^IRQ  15,    47 	; IDE1 传输控制使用$/;"	l
 IRQ0	libs/idt.h	/^#define  IRQ0 /;"	d
 IRQ1	libs/idt.h	/^#define  IRQ1 /;"	d
 IRQ10	libs/idt.h	/^#define  IRQ10 /;"	d
@@ -182,6 +199,7 @@ idt_set_gate	kernel/idt/idt.c	/^static void idt_set_gate(uint8_t num, uint32_t b
 inb	boot/bootmain.c	/^inb(uint16_t port) {$/;"	f	file:
 inb	libs/i386.h	/^static inline uint8_t inb(uint16_t port){$/;"	f
 init_idt	kernel/idt/idt.c	/^void init_idt()$/;"	f
+init_timer	kernel/drivers/timer.c	/^void init_timer(uint32_t frequency)$/;"	f
 insl	boot/bootmain.c	/^insl(uint32_t port, void *addr, int cnt) {$/;"	f	file:
 int16_t	libs/types.h	/^typedef          short int16_t;$/;"	t
 int2str	kernel/string.c	/^char * int2str(uint32_t n, uint8_t type){$/;"	f
@@ -191,6 +209,8 @@ int_no	libs/idt.h	/^	uint32_t int_no; 	\/\/ 中断号$/;"	m	struct:pt_regs_t
 interrupt_handler_t	libs/idt.h	/^typedef void (*interrupt_handler_t)(pt_regs *);$/;"	t
 interrupt_handlers	kernel/idt/idt.c	/^interrupt_handler_t interrupt_handlers[256];$/;"	v
 inw	libs/i386.h	/^static inline uint16_t inw(uint16_t port){$/;"	f
+irq_common_stub	kernel/idt/idt_s.s	/^irq_common_stub:$/;"	l
+irq_handler	kernel/idt/idt.c	/^void irq_handler(pt_regs *regs)$/;"	f
 isr_common_stub	kernel/idt/idt_s.s	/^isr_common_stub:$/;"	l
 isr_handler	kernel/idt/idt.c	/^void isr_handler(pt_regs *regs)$/;"	f
 kern_init	kernel/kernel_init.c	/^int kern_init(){$/;"	f
@@ -198,7 +218,7 @@ limit	libs/idt.h	/^	uint16_t limit; 	\/\/ 限长$/;"	m	struct:idt_ptr_t
 lpt_putc_sub	kernel/console.c	/^static void lpt_putc_sub(int c) {$/;"	f	file:
 main	scripts/sign.c	/^main(int argc, char *argv[]) {$/;"	f
 memcpy	kernel/string.c	/^void memcpy(uint8_t *dest, const uint8_t *src, uint32_t len){$/;"	f
-memset	kernel/string.c	/^void memset(uint8_t *dest, uint8_t c, uint32_t len){$/;"	f
+memset	kernel/string.c	/^void memset(uint8_t *dest, const uint8_t c, uint32_t len){$/;"	f
 move_cs	kernel/console.c	/^static void move_cs(){$/;"	f	file:
 n_desc	libs/stab.h	/^    uint16_t n_desc;        \/\/ description field$/;"	m	struct:stab
 n_other	libs/stab.h	/^    uint8_t n_other;        \/\/ misc info (usually empty)$/;"	m	struct:stab
@@ -253,17 +273,18 @@ size_t	libs/types.h	/^typedef unsigned int       size_t;$/;"	t
 ss	libs/idt.h	/^	uint32_t ss;$/;"	m	struct:pt_regs_t
 ssize_t	libs/types.h	/^typedef          int       ssize_t;$/;"	t
 stab	libs/stab.h	/^typedef struct stab {$/;"	s
-stab_bsearch	kernel/debug/debug.c	/^struct stab * stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t type){$/;"	f
+stab_bsearch	kernel/debug/debug.c	/^static void stab_bsearch(uint32_t eip,int* region_l, int* region_r, uint8_t type){$/;"	f	file:
 stab_end	kernel/debug/debug.c	/^static stab_t *stab_end =  __STAB_END__;$/;"	v	file:
 stab_t	libs/stab.h	/^} stab_t;$/;"	t	typeref:struct:stab
 stabs	kernel/debug/debug.c	/^static stab_t *stabs = __STAB_BEGIN__;$/;"	v	file:
 stabstr	kernel/debug/debug.c	/^static char *stabstr = __STABSTR_BEGIN__;$/;"	v	file:
-stabstr_end	kernel/debug/debug.c	/^static char *stabstr_end = __STABSTR_END__;$/;"	v	file:
 start	boot/bootasm.s	/^start:$/;"	l
+stop	kernel/debug/astop.s	/^stop:$/;"	l
 strcat	kernel/string.c	/^char *strcat(char *dest, const char *src){$/;"	f
 strcmp	kernel/string.c	/^int strcmp(const char *str1, const char *str2){$/;"	f
 strcpy	kernel/string.c	/^char *strcpy(char *dest, const char *src){$/;"	f
 strlen	kernel/string.c	/^int strlen(const char *s){$/;"	f
+timer_callback	kernel/drivers/timer.c	/^void timer_callback(pt_regs *regs)$/;"	f
 uint16_t	libs/types.h	/^typedef unsigned short uint16_t;$/;"	t
 uint32_t	libs/types.h	/^typedef unsigned int   uint32_t;$/;"	t
 uint8_t	libs/types.h	/^typedef unsigned char  uint8_t;$/;"	t

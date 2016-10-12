@@ -41,7 +41,7 @@ bin/kernel: $(S_KERNEL_OBJECTS) $(C_LIB_OBJECTS) $(C_KERNEL_OBJECTS)
 
 $(C_LIB_OBJECTS): temp/%.o : libs/%.c
 	@echo 编译libs...
-	$(CC) $(C_FLAGS) $< -o $@
+	$(CC) $(C_FLAGS) -O3 $< -o $@
 
 $(C_KERNEL_OBJECTS): temp/%.o : kernel/%.c
 	@echo 编译kernel...
@@ -59,11 +59,15 @@ qemu: bin/floppy.img
 debug: bin/floppy.img
 	qemu-system-i386 -parallel stdio -hda bin/floppy.img -serial null -S -s &
 	i386-elf-gdb -ex 'target remote localhost:1234' \
-	    -ex 'set disassembly-flavor intel' \
 		-ex 'set architecture i386' \
-	    -ex 'break *0x7c00' \
+		-ex 'set disassembly-flavor intel' \
 	    -ex 'break *0x100000' \
-		-ex 'continue'
+		-ex 'continue' \
+		-ex 'layout asm'\
+		-ex 'ni' \
+		
+		#-ex 'set disassembly-flavor intel' \
+#-ex 'break *0x7c00' \
 
 RM := rm -r
 .PHONY:clean
